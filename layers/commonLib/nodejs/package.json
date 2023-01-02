@@ -1,0 +1,20 @@
+{
+  "name": "dynamodb-serverlessts-boilerplate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-secrets-manager": "^3.55.0",
+    "@middy/core": "^3.6.2",
+    "@middy/http-error-handler": "^4.0.0",
+    "@middy/warmup": "^3.6.2",
+    "fast-csv": "^4.3.6",
+    "joi": "^17.5.0",
+    "jsonwebtoken": "^8.5.1"
+  }
+}
