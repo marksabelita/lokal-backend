@@ -14,6 +14,7 @@ import {
   getUpdateExpressionTransformer,
 } from '../util/transformer/dynamoData.transformer'
 import { replaceSpecCharWithDash } from '../util/transformer/string.transformer'
+import { TALENT_DEFAULT_UNAME } from '../config/conts.config'
 
 export class TalentService {
   talent: TalentModel
@@ -24,6 +25,49 @@ export class TalentService {
     this.talent = talent
   }
 
+  groupTalentData(talents) {
+    const { longitude, latitude, fullName, rating, category, city, province } = talents
+
+    return JSON.stringify({
+      fullName,
+      city,
+      province,
+      talenId: this.talent.sk,
+      rating,
+      longitude,
+      latitude,
+      category,
+    })
+  }
+
+  generateRedisRecord = async (): Promise<void> => {
+    const { longitude, latitude, category } = this.talent.getTalent()
+    const labelCategory = replaceSpecCharWithDash(category).toUpperCase()
+    const redisUserData = this.groupTalentData(this.talent.getTalent())
+
+    await Promise.all([
+      getRedisClient().geoadd(`${TALENT_DEFAULT_UNAME}`, latitude, longitude, redisUserData),
+      getRedisClient().geoadd(
+        `${TALENT_DEFAULT_UNAME}-${labelCategory}`,
+        latitude,
+        longitude,
+        redisUserData
+      ),
+    ])
+  }
+
+  deleteRedisRecord = async (): Promise<void> => {
+    const originalData = (await this.getTalent()).talent
+    const redisUserData = this.groupTalentData(originalData)
+    const labelCategory = replaceSpecCharWithDash(originalData.category).toUpperCase()
+    console.log(redisUserData)
+
+    await Promise.all([
+      getRedisClient().zrem(`${TALENT_DEFAULT_UNAME}`, redisUserData),
+      getRedisClient().zrem(`${TALENT_DEFAULT_UNAME}-${labelCategory}`, redisUserData),
+    ])
+  }
+
   createTalent = async (): Promise<TalentModel> => {
     try {
       const putItemData = {
@@ -31,24 +75,7 @@ export class TalentService {
         Item: this.talent.toItemCreate(),
         ConditionExpression: 'attribute_not_exists(PK)',
       }
-      const { longitude, latitude, fullName, rating, category, city, province } =
-        this.talent.getTalent()
-      const labelCategory = replaceSpecCharWithDash(category).toUpperCase()
-
-      const userData = JSON.stringify({
-        fullName,
-        city,
-        province,
-        talenId: this.talent.sk,
-        rating,
-        longitude,
-        latitude,
-        category,
-      })
-
-      await getRedisClient().geoadd('TALENT', latitude, longitude, userData)
-      await getRedisClient().geoadd(`TALENT-${labelCategory}`, latitude, longitude, userData)
-
+      await this.generateRedisRecord()
       await this.dynamoDbClient.send(new PutItemCommand(putItemData))
       return this.talent
     } catch (error) {
@@ -59,14 +86,12 @@ export class TalentService {
 
   async getTalent(): Promise<TalentModel> {
     const talent = new TalentModel({ contactNumber: this.talent.getTalent().contactNumber })
-
     try {
       const getItemData = {
         TableName: this.tableName,
         Key: talent.keys(),
       }
 
-      console.log(getItemData)
       const resp = await this.dynamoDbClient.send(new GetItemCommand(getItemData))
       return TalentModel.fromItem(resp.Item)
     } catch (error) {
@@ -77,22 +102,27 @@ export class TalentService {
 
   updateTalent = async (): Promise<TalentModel> => {
     const { contactNumber } = this.talent.getTalent()
-    const talent = new TalentModel({ contactNumber })
+    await this.deleteRedisRecord()
 
     try {
-      const updateItemData = {
-        TableName: this.tableName,
-        Key: talent.keys(),
-        ConditionExpression: 'attribute_exists(PK)',
-        UpdateExpression: getUpdateExpressionTransformer(this.talent.getTalent(), [
-          'contactNumber',
-        ]),
-        ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
-      }
-
-      console.log(updateItemData)
-      await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
-      return this.talent
+      // const updateItemData = {
+      //   TableName: this.tableName,
+      //   Key: talent.keys(),
+      //   ConditionExpression: 'attribute_exists(PK)',
+      //   UpdateExpression: getUpdateExpressionTransformer(this.talent.getTalent()),
+      //   ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
+      // }
+      // await Promise.all([
+      //   getRedisClient().geoadd(`${TALENT_DEFAULT_UNAME}`, latitude, longitude, redisUserData),
+      //   getRedisClient().geoadd(
+      //     `${TALENT_DEFAULT_UNAME}-${labelCategory}`,
+      //     latitude,
+      //     longitude,
+      //     redisUserData
+      //   ),
+      // ])
+      // await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
+      // return this.talent
     } catch (error) {
       console.log(error)
       throw error

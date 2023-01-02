@@ -1,3 +1,4 @@
+import { TALENT_DEFAULT_UNAME } from '../config/conts.config'
 import { IDynamoDBKey } from '../interface/dynamo.interface'
 import { IUserInterfaceModel } from '../interface/models/user.interface'
 import { Item } from './base.model'
@@ -30,11 +31,11 @@ export class UserModel extends Item {
   }
 
   get pk(): string {
-    return `USER#${this.user.contactNumber}`
+    return `${TALENT_DEFAULT_UNAME}#${this.user.contactNumber}`
   }
 
   get sk(): string {
-    return `USER#${this.user.contactNumber}`
+    return `${TALENT_DEFAULT_UNAME}#${this.user.contactNumber}`
   }
 
   getUser(): IUserInterfaceModel {

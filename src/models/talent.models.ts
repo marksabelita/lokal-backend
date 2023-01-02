@@ -1,3 +1,4 @@
+import { TALENT_DEFAULT_UNAME } from '../config/conts.config'
 import { IDynamoDBKey } from '../interface/dynamo.interface'
 import { ITalentInterfaceModel } from '../interface/models/talent.interface'
 import { Item } from './base.model'
@@ -38,11 +39,11 @@ export class TalentModel extends Item {
   }
 
   get pk(): string {
-    return `TALENT`
+    return `${TALENT_DEFAULT_UNAME}`
   }
 
   get sk(): string {
-    return `TALENT#${this.talent.contactNumber}`
+    return `${TALENT_DEFAULT_UNAME}#${this.talent.contactNumber}`
   }
 
   getTalent(): ITalentInterfaceModel {
