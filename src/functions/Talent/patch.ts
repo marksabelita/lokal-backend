@@ -20,5 +20,5 @@ export const updateTalent = async (
   const talentService = new TalentService(talentModel)
 
   const result = await talentService.updateTalent()
-  return success(logger.getTrackingCode(), 'success', { result })
+  return success(logger.getTrackingCode(), 'success', result)
 }

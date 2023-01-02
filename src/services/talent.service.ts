@@ -101,28 +101,20 @@ export class TalentService {
   }
 
   updateTalent = async (): Promise<TalentModel> => {
-    const { contactNumber } = this.talent.getTalent()
     await this.deleteRedisRecord()
 
     try {
-      // const updateItemData = {
-      //   TableName: this.tableName,
-      //   Key: talent.keys(),
-      //   ConditionExpression: 'attribute_exists(PK)',
-      //   UpdateExpression: getUpdateExpressionTransformer(this.talent.getTalent()),
-      //   ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
-      // }
-      // await Promise.all([
-      //   getRedisClient().geoadd(`${TALENT_DEFAULT_UNAME}`, latitude, longitude, redisUserData),
-      //   getRedisClient().geoadd(
-      //     `${TALENT_DEFAULT_UNAME}-${labelCategory}`,
-      //     latitude,
-      //     longitude,
-      //     redisUserData
-      //   ),
-      // ])
-      // await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
-      // return this.talent
+      const updateItemData = {
+        TableName: this.tableName,
+        Key: this.talent.keys(),
+        ConditionExpression: 'attribute_exists(PK)',
+        UpdateExpression: getUpdateExpressionTransformer(this.talent.getTalent()),
+        ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
+      }
+
+      console.log(updateItemData)
+      await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
+      return this.talent
     } catch (error) {
       console.log(error)
       throw error

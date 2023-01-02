@@ -56,19 +56,15 @@ export class UserService {
   }
 
   updateUser = async (): Promise<UserModel> => {
-    const { contactNumber } = this.user.getUser()
-    const user = new UserModel({ contactNumber })
-
     try {
       const updateItemData = {
         TableName: this.tableName,
-        Key: user.keys(),
+        Key: this.user.keys(),
         ConditionExpression: 'attribute_exists(PK)',
         UpdateExpression: getUpdateExpressionTransformer(this.user.getUser(), ['contactNumber']),
         ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.user.toItem()),
       }
 
-      console.log(updateItemData)
       await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
       return this.user
     } catch (error) {

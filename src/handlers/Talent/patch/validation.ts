@@ -2,7 +2,6 @@ import Joi from 'joi'
 import { ITalentInterfaceModel } from '../../../interface/models/talent.interface'
 
 export const putTalentBodyValidation = Joi.object<ITalentInterfaceModel>({
-  contactNumber: Joi.string().required(),
   fullName: Joi.string().required(),
   category: Joi.string().required(),
   city: Joi.string().required(),

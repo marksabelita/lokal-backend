@@ -20,5 +20,5 @@ export const updateUser = async (
   const userService = new UserService(userModel)
 
   const result = await userService.updateUser()
-  return success(logger.getTrackingCode(), 'success', { result })
+  return success(logger.getTrackingCode(), 'success', result)
 }

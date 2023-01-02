@@ -52,6 +52,7 @@ export class TalentModel extends Item {
 
   toItem() {
     return {
+      ...(this.talent.contactNumber ? { contactNumber: { S: this.talent.contactNumber } } : {}),
       ...(this.talent.fullName ? { fullName: { S: this.talent.fullName } } : {}),
       ...(this.talent.category ? { category: { S: this.talent.category } } : {}),
       ...(this.talent.city ? { city: { S: this.talent.city } } : {}),
