@@ -20,20 +20,6 @@ export const getTalentByLocation = async (
     ? `TALENT-${replaceSpecCharWithDash(category).toUpperCase()}`
     : `TALENT`
 
-  await redisClient.zrem(
-    QUERY_KEY,
-    JSON.stringify({
-      fullName: 'markSabelita',
-      city: 'ANTIPOLO',
-      province: 'RIZAL',
-      talenId: 'TALENT#09499444389',
-      rating: null,
-      longitude: 14.62236,
-      latitude: 121.166153,
-      category: 'Construction',
-    })
-  )
-
   const data = await redisClient.georadius(QUERY_KEY, latitude, longitude, RADIUS, 'm')
   const transformData = data.map((d: string) => {
     return JSON.parse(d)
