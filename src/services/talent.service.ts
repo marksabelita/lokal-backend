@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { getDynamoDBClient } from '../database/dynamoDb'
-import { UserModel } from '../models/user.models'
+import { getRedisClient } from '../database/redisDb'
+import { TalentModel } from '../models/talent.models'
 import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
 import {
   UpdateItemCommand,
@@ -12,80 +13,101 @@ import {
   getExpressionAttributeNamesTransformer,
   getUpdateExpressionTransformer,
 } from '../util/transformer/dynamoData.transformer'
+import { replaceSpecCharWithDash } from '../util/transformer/string.transformer'
 
-export class UserService {
-  user: UserModel
+export class TalentService {
+  talent: TalentModel
   dynamoDbClient: DynamoDBClient = getDynamoDBClient()
   tableName: string = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.DYNAMODB_TABLE_NAME)
 
-  constructor(user: UserModel) {
-    this.user = user
+  constructor(talent: TalentModel) {
+    this.talent = talent
   }
 
-  createUser = async (): Promise<UserModel> => {
+  createTalent = async (): Promise<TalentModel> => {
     try {
       const putItemData = {
         TableName: this.tableName,
-        Item: this.user.toItemCreate(),
+        Item: this.talent.toItemCreate(),
         ConditionExpression: 'attribute_not_exists(PK)',
       }
+      const { longitude, latitude, fullName, rating, category, city, province } =
+        this.talent.getTalent()
+      const labelCategory = replaceSpecCharWithDash(category).toUpperCase()
+
+      const userData = JSON.stringify({
+        fullName,
+        city,
+        province,
+        talenId: this.talent.sk,
+        rating,
+        longitude,
+        latitude,
+        category,
+      })
+
+      await getRedisClient().geoadd('TALENT', latitude, longitude, userData)
+      await getRedisClient().geoadd(`TALENT-${labelCategory}`, latitude, longitude, userData)
 
       await this.dynamoDbClient.send(new PutItemCommand(putItemData))
-      return this.user
+      return this.talent
     } catch (error) {
       console.log(error)
       throw error
     }
   }
 
-  async getUser(): Promise<UserModel> {
-    const user = new UserModel({ contactNumber: this.user.getUser().contactNumber })
+  async getTalent(): Promise<TalentModel> {
+    const talent = new TalentModel({ contactNumber: this.talent.getTalent().contactNumber })
 
     try {
       const getItemData = {
         TableName: this.tableName,
-        Key: user.keys(),
+        Key: talent.keys(),
       }
 
+      console.log(getItemData)
       const resp = await this.dynamoDbClient.send(new GetItemCommand(getItemData))
-      return UserModel.fromItem(resp.Item)
+      return TalentModel.fromItem(resp.Item)
     } catch (error) {
       console.log(error)
       throw error
     }
   }
 
-  updateUser = async (): Promise<UserModel> => {
-    const { contactNumber } = this.user.getUser()
-    const user = new UserModel({ contactNumber })
+  updateTalent = async (): Promise<TalentModel> => {
+    const { contactNumber } = this.talent.getTalent()
+    const talent = new TalentModel({ contactNumber })
 
     try {
       const updateItemData = {
         TableName: this.tableName,
-        Key: user.keys(),
+        Key: talent.keys(),
         ConditionExpression: 'attribute_exists(PK)',
-        UpdateExpression: getUpdateExpressionTransformer(this.user.getUser(), ['contactNumber']),
-        ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.user.toItem()),
+        UpdateExpression: getUpdateExpressionTransformer(this.talent.getTalent(), [
+          'contactNumber',
+        ]),
+        ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
       }
 
       console.log(updateItemData)
       await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
-      return this.user
+      return this.talent
     } catch (error) {
       console.log(error)
       throw error
     }
   }
 
-  deleteUser = async (): Promise<UserModel> => {
-    const { contactNumber } = this.user.getUser()
-    const user = new UserModel({ contactNumber })
+  deleteTalent = async (): Promise<TalentModel> => {
+    const { contactNumber } = this.talent.getTalent()
+    const talent = new TalentModel({ contactNumber })
     const activeStatus = { active: 0 }
 
     try {
       const updateItemData = {
         TableName: this.tableName,
-        Key: user.keys(),
+        Key: talent.keys(),
         ConditionExpression: 'attribute_exists(PK)',
         UpdateExpression: getUpdateExpressionTransformer(activeStatus),
         ExpressionAttributeValues: getExpressionAttributeNamesTransformer({
@@ -94,7 +116,7 @@ export class UserService {
       }
 
       await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
-      return this.user
+      return this.talent
     } catch (error) {
       console.log(error)
       throw error

@@ -4,6 +4,7 @@ import { dynamoDbResource } from './src/resources/stacks/dynamo'
 
 // routes
 import { userRoutes } from './src/routes/user.routes'
+import { talentRoutes } from './src/routes/talent.routes'
 
 const environment = {
   ENV: '${env:ENV}',
@@ -105,6 +106,7 @@ const serverless: AWS = {
   useDotenv: true,
   functions: {
     ...userRoutes,
+    ...talentRoutes,
   },
   resources: {
     Resources: {

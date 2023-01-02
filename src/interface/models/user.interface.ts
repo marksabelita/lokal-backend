@@ -4,7 +4,7 @@ export enum EUserType {
 }
 
 export interface IUserInterfaceModel {
-  contactNumber: string
+  contactNumber?: string
   firstName?: string
   lastName?: string
   userType?: string
