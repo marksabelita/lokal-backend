@@ -18,7 +18,7 @@ export class UserModel extends Item {
       contactNumber: item.contactNumber.S,
       firstName: item.firstName.S,
       lastName: item.lastName.S,
-      userType: item?.userType.S,
+      userType: item.userType.S,
       birthday: item.birthday.S,
       city: item.city.S,
       province: item.province.S,
@@ -47,15 +47,14 @@ export class UserModel extends Item {
     return {
       ...(this.user.firstName ? { firstName: { S: this.user.firstName } } : {}),
       ...(this.user.lastName ? { lastName: { S: this.user.lastName } } : {}),
-      ...(this.user.userType
-        ? { userType: { S: this.user.userType } }
-        : { userType: { S: 'normal' } }),
+      ...(this.user.userType ? { userType: { S: this.user.userType } } : {}),
       ...(this.user.birthday ? { birthday: { S: this.user.birthday } } : {}),
       ...(this.user.city ? { city: { S: this.user.city } } : {}),
       ...(this.user.province ? { province: { S: this.user.province } } : {}),
       ...(this.user.latitude ? { latitude: { N: this.user.latitude.toString() } } : {}),
       ...(this.user.longitude ? { longitude: { N: this.user.longitude.toString() } } : {}),
       ...(this.user.active ? { active: { N: this.user.active.toString() } } : {}),
+      ...(this.user.isVerified ? { isVerified: { BOOL: this.user.isVerified } } : {}),
     }
   }
 
