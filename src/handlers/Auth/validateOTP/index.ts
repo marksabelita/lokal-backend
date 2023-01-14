@@ -2,8 +2,8 @@ import middy from '@middy/core'
 import { defaultMiddleware } from '../../../middleware/DefaultMiddleware'
 import { EventBodyValidationMiddleware } from '../../../middleware/EventBodyValidationMiddleware'
 import { validation } from './validation'
-import { registerUser } from '../../../functions/Auth/register'
+import { validateOTP } from '../../../functions/Auth/validateOTP'
 
-export const handler = middy(registerUser)
+export const handler = middy(validateOTP)
   .use(defaultMiddleware)
   .use(EventBodyValidationMiddleware(validation))

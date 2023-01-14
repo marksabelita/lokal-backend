@@ -4,8 +4,8 @@ import {
   ENVIRONMENTS,
   ENVIRONMENT_VARIABLES,
   getEnvironmentVariableValue,
-} from '../util/environments'
-import { error } from '../util/response'
+} from '../util/environments.util'
+import { error } from '../util/response.util'
 
 export const SetEnvMiddleware = () => {
   const before = async (request) => {

@@ -1,7 +1,7 @@
 import * as AWS from '@aws-sdk/client-secrets-manager'
 
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from './environments'
-import { Logger } from './log'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from './environments.util'
+import { Logger } from './log.util'
 
 interface SecretValues {
   MONGO_DB_CONN: string

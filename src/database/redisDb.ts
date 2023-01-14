@@ -1,5 +1,5 @@
 import Redis from 'ioredis'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
 let client = null
 
 export const getRedisClient = (): Redis => {

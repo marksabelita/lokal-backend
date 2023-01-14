@@ -1,5 +1,5 @@
 import { ICustomContext } from '../interface/context.interface'
-import { error } from '../util/response'
+import { error } from '../util/response.util'
 import { AsyncValidationOptions, Schema } from 'joi'
 import { HTTP_CODE } from '../interface/enums/http'
 

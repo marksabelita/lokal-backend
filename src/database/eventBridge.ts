@@ -1,4 +1,4 @@
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
 import { EventBridgeClient } from '@aws-sdk/client-eventbridge'
 const client = null
 

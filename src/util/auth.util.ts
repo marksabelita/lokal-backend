@@ -1,4 +1,4 @@
-import { Logger } from './log'
+import { Logger } from './log.util'
 import jwt from 'jsonwebtoken'
 
 export class Auth<TokenPayloadType = Record<string, any>> {

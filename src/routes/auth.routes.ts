@@ -10,7 +10,19 @@ export const authRoutes: AWS['functions'] = {
         http: {
           cors: cors,
           method: 'post',
-          path: '/register',
+          path: '/auth/register',
+        },
+      },
+    ],
+  },
+  validateOTP: {
+    handler: 'src/handlers/Auth/validateOTP/index.handler',
+    events: [
+      {
+        http: {
+          cors: cors,
+          method: 'post',
+          path: '/auth/validate/otp',
         },
       },
     ],

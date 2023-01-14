@@ -1,7 +1,7 @@
 import Joi from 'joi'
 import { IUserInterfaceModel } from '../../../interface/models/user.interface'
 
-export const createUserValidation = Joi.object<IUserInterfaceModel>({
+export const validation = Joi.object<IUserInterfaceModel>({
   contactNumber: Joi.string().required(),
   firstName: Joi.string().required(),
   lastName: Joi.string().required(),

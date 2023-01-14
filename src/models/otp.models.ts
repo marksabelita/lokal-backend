@@ -30,7 +30,7 @@ export class OTPModel extends Item {
     return `${this.otp.otp}`
   }
 
-  getOtp(): IOTPInterfaceModel {
+  getOTP(): IOTPInterfaceModel {
     return this.otp
   }
 

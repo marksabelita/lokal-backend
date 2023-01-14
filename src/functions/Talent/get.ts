@@ -1,7 +1,7 @@
 import { ICustomContext } from '../../interface/context.interface'
 import { TalentModel } from '../../models/talent.models'
 import { TalentService } from '../../services/talent.service'
-import { success } from '../../util/response'
+import { success } from '../../util/response.util'
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 
 export const getTalent = async (

@@ -1,5 +1,5 @@
 import { DynamoDBClient } from '@aws-sdk/client-dynamodb'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
 let client = null
 
 export const getDynamoDBClient = (): DynamoDBClient => {

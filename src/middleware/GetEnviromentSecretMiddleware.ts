@@ -1,7 +1,7 @@
 import { HTTP_CODE } from '../interface/enums/http'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
-import { error } from '../util/response'
-import { SecretVariables } from '../util/secrets'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
+import { error } from '../util/response.util'
+import { SecretVariables } from '../util/secrets.util'
 
 export const GetEnviromentSecretMiddleware = () => {
   const before = async (request) => {

@@ -1,6 +1,6 @@
 import { HTTP_CODE } from '../interface/enums/http'
-import { Logger } from '../util/log'
-import { error } from '../util/response'
+import { Logger } from '../util/log.util'
+import { error } from '../util/response.util'
 const logger = new Logger()
 
 export const LoggerMiddleware = () => {

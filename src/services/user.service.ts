@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import { getDynamoDBClient } from '../database/dynamoDb'
 import { UserModel } from '../models/user.models'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
 import {
   UpdateItemCommand,
   GetItemCommand,

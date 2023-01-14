@@ -2,7 +2,7 @@
 import { getDynamoDBClient } from '../database/dynamoDb'
 import { getRedisClient } from '../database/redisDb'
 import { TalentModel } from '../models/talent.models'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
 import {
   UpdateItemCommand,
   GetItemCommand,

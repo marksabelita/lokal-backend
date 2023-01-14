@@ -1,7 +1,7 @@
 import { DEFAULT_RADIUS } from '../../config/conts.config'
 import { getRedisClient } from '../../database/redisDb'
 import { ICustomContext } from '../../interface/context.interface'
-import { success } from '../../util/response'
+import { success } from '../../util/response.util'
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 import { replaceSpecCharWithDash } from '../../util/transformer/string.transformer'
 

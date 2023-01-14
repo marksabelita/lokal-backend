@@ -1,8 +1,8 @@
 import { ICustomContext } from '../interface/context.interface'
-import { error } from '../util/response'
+import { error } from '../util/response.util'
 import { HTTP_CODE } from '../interface/enums/http'
 import { IGlobalTokenPayload } from '../interface/auth.interface'
-import { Auth } from '../util/auth'
+import { Auth } from '../util/auth.util'
 
 export const AuthMiddleware = () => {
   const before = async (request) => {

@@ -1,7 +1,7 @@
 import { EventBridgeEvent } from 'aws-lambda'
 import { ICustomContext } from '../../interface/context.interface'
 import { IOTPParams } from '../../interface/otp.interface'
-import { sendTwillioSMS } from '../../util/sms'
+import { sendTwillioSMS } from '../../util/sms.util'
 import { ISMSTwillioParams } from '../../interface/sms.interface'
 
 export const generateOTPConsumer = async (

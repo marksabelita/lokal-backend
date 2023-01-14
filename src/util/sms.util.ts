@@ -1,6 +1,6 @@
 import { Twilio } from 'twilio'
 import { ISMSTwillioParams } from '../interface/sms.interface'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from './environments'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from './environments.util'
 import { MessageInstance } from 'twilio/lib/rest/api/v2010/account/message'
 
 export const sendTwillioSMS = (data: ISMSTwillioParams): Promise<MessageInstance> => {

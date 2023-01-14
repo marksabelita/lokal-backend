@@ -1,8 +1,8 @@
 /* eslint-disable no-console */
 import { getDynamoDBClient } from '../database/dynamoDb'
 import { OTPModel } from '../models/otp.models'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
-import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
+import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
+import { DynamoDBClient, GetItemCommand, PutItemCommand } from '@aws-sdk/client-dynamodb'
 
 export class OTPService {
   otp: OTPModel
@@ -23,6 +23,21 @@ export class OTPService {
 
       await this.dynamoDbClient.send(new PutItemCommand(putItemData))
       return this.otp
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async getOTP(): Promise<OTPModel> {
+    try {
+      const getItemData = {
+        TableName: this.tableName,
+        Key: this.otp.keys(),
+      }
+
+      const resp = await this.dynamoDbClient.send(new GetItemCommand(getItemData))
+      return OTPModel.fromItem(resp.Item)
     } catch (error) {
       console.log(error)
       throw error

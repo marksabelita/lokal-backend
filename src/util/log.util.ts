@@ -1,4 +1,8 @@
-import { ENVIRONMENTS, ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from './environments'
+import {
+  ENVIRONMENTS,
+  ENVIRONMENT_VARIABLES,
+  getEnvironmentVariableValue,
+} from './environments.util'
 
 export enum LogType {
   INFO = 'INFO',
