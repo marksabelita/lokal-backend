@@ -16,6 +16,9 @@ const environment = {
   DYNAMODB_LOCAL_ENDPOINT: '${env:DYNAMODB_LOCAL_ENDPOINT}',
   DYNAMODB_TABLE_NAME: '${env:DYNAMODB_TABLE_NAME}',
   EVENT_BRIDGE_LOCAL_ENDPOINT: '${env:EVENT_BRIDGE_LOCAL_ENDPOINT}',
+  TWILIO_SID: '${env:TWILIO_SID}',
+  TWILIO_TOKEN: '${env:TWILIO_TOKEN}',
+  TWILIO_CONTACT: '${env:TWILIO_CONTACT}',
 }
 
 // const domainName = `${environment.ENV == 'production' ? '' : `${environment.ENV}-`}boilerplate-api.${environment.API_DOMAIN_NAME}`

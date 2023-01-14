@@ -1,7 +1,8 @@
 import { PutEventsCommand } from '@aws-sdk/client-eventbridge'
 import { getEventBridgeClient } from '../database/eventBridge'
+import { IOTPParams } from '../interface/otp.interface'
 
-export const sendOTPEvent = async () => {
+export const sendOTPEvent = async (otpData: IOTPParams) => {
   const eventBridgeClient = getEventBridgeClient()
   const params = {
     Entries: [
@@ -9,10 +10,9 @@ export const sendOTPEvent = async () => {
         EventBusName: 'registration',
         Source: 'registration.otp',
         DetailType: 'UserSignUp',
-        Detail: `{ "E-Mail": "some@someemail.some" }`,
+        Detail: JSON.stringify(otpData),
       },
     ],
   }
-
   return await eventBridgeClient.send(new PutEventsCommand(params))
 }

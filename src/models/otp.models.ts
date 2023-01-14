@@ -1,4 +1,4 @@
-import { DEFAULT_TTL } from '../config/conts.config'
+import { DEFAULT_TTL, OTP_DEFAULT_UNAME } from '../config/conts.config'
 import { IDynamoDBKey } from '../interface/dynamo.interface'
 import { IOTPInterfaceModel } from '../interface/models/otp.interface'
 import { Item } from './base.model'
@@ -23,11 +23,11 @@ export class OTPModel extends Item {
   }
 
   get pk(): string {
-    return `${this.otp.contactNumber}`
+    return `${OTP_DEFAULT_UNAME}#${this.otp.contactNumber}`
   }
 
   get sk(): string {
-    return `#${this.otp.otp}`
+    return `${this.otp.otp}`
   }
 
   getOtp(): IOTPInterfaceModel {
@@ -36,8 +36,10 @@ export class OTPModel extends Item {
 
   toItem() {
     return {
-      ...(this.otp.otp ? { firstName: { N: this.otp.otp.toString() } } : {}),
-      ...(this.otp.ttl ? { longitude: { N: this.otp.ttl.toString() } } : {}),
+      ...(this.otp.otp ? { otp: { N: this.otp.otp.toString() } } : {}),
+      ...(this.otp.ttl
+        ? { ttl: { N: this.otp.ttl.toString() } }
+        : { ttl: { N: DEFAULT_TTL.toString() } }),
     }
   }
 

@@ -10,6 +10,10 @@ export const registrationEvents: AWS['functions'] = {
           pattern: {
             source: ['registration.otp'],
           },
+          retryPolicy: {
+            maximumEventAge: 3600,
+            maximumRetryAttempts: 3,
+          },
         },
       },
     ],

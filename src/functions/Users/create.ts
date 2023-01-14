@@ -4,7 +4,7 @@ import { UserModel } from '../../models/user.models'
 import { UserService } from '../../services/user.service'
 import { success } from '../../util/response'
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
-import { sendOTPEvent } from '../../util/sendOTP'
+import { sendOTPEvent } from '../../util/events'
 
 export const createUser = async (
   event: APIGatewayProxyEvent,
@@ -18,7 +18,5 @@ export const createUser = async (
   const userService = new UserService(userModel)
 
   const result = await userService.createUser()
-  const sendOTPResult = await sendOTPEvent()
-
-  return success(logger.getTrackingCode(), 'success', { result, sendOTPResult })
+  return success(logger.getTrackingCode(), 'success', { result })
 }

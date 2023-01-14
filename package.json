@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "local": "serverless offline --stage dev",
+    "local": "serverless offline start --stage dev",
     "local:db:install": "sls dynamodb install",
     "local:db:start": "sls dynamodb start",
     "test": "npm run ts:check && npm run lint && echo \"Implement Test\"",
@@ -66,6 +66,7 @@
     "jsonwebtoken": "^8.5.1",
     "serverless-dynamodb-client": "0.0.2",
     "serverless-offline-aws-eventbridge": "1.6.7",
+    "twilio": "^3.84.1",
     "ulid": "^2.3.0"
   }
 }

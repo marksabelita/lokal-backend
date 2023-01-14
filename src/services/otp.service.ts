@@ -4,7 +4,7 @@ import { OTPModel } from '../models/otp.models'
 import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments'
 import { DynamoDBClient, PutItemCommand } from '@aws-sdk/client-dynamodb'
 
-export class OtpService {
+export class OTPService {
   otp: OTPModel
   dynamoDbClient: DynamoDBClient = getDynamoDBClient()
   tableName: string = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.DYNAMODB_TABLE_NAME)
