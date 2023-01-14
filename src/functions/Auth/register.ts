@@ -19,6 +19,7 @@ export const registerUser = async (
   const { logger } = context
   const { body } = event
   let sendOTPResult
+
   const user: IUserInterfaceModel = JSON.parse(body)
   const userModel = new UserModel({ ...user, active: 1 })
   const userService = new UserService(userModel)
