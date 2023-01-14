@@ -9,12 +9,18 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.238.0",
+    "@aws-sdk/client-eventbridge": "^3.245.0",
     "@aws-sdk/client-secrets-manager": "^3.55.0",
     "@middy/core": "^3.6.2",
-    "@middy/http-error-handler": "^4.0.0",
+    "@middy/http-error-handler": "^3.6.2",
     "@middy/warmup": "^3.6.2",
-    "fast-csv": "^4.3.6",
+    "ioredis": "^5.2.4",
     "joi": "^17.5.0",
-    "jsonwebtoken": "^8.5.1"
+    "jsonwebtoken": "^8.5.1",
+    "serverless-dynamodb-client": "0.0.2",
+    "serverless-offline-aws-eventbridge": "1.6.7",
+    "twilio": "^3.84.1",
+    "ulid": "^2.3.0"
   }
 }
