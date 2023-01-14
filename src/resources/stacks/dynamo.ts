@@ -52,6 +52,10 @@ export const dynamoDbResource: AWS['resources']['Resources'] = {
           },
         },
       ],
+      TimeToLiveSpecification: {
+        AttributeName: 'ttl',
+        Enabled: true,
+      },
     },
   },
 }

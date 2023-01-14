@@ -25,6 +25,7 @@ export class UserModel extends Item {
       latitude: item.latitude && item.latitude.N ? parseFloat(item.latitude.N) : null,
       longitude: item.longitude && item.longitude.N ? parseFloat(item.longitude.N) : null,
       active: item.active && item.active.N ? parseInt(item.active.N) : null,
+      isVerified: item.active && item.active.BOOL ? item.active.BOOL : false,
     }
 
     return new UserModel(formattedItem)
@@ -46,7 +47,9 @@ export class UserModel extends Item {
     return {
       ...(this.user.firstName ? { firstName: { S: this.user.firstName } } : {}),
       ...(this.user.lastName ? { lastName: { S: this.user.lastName } } : {}),
-      ...(this.user.userType ? { userType: { S: this.user.userType } } : {}),
+      ...(this.user.userType
+        ? { userType: { S: this.user.userType } }
+        : { userType: { S: 'normal' } }),
       ...(this.user.birthday ? { birthday: { S: this.user.birthday } } : {}),
       ...(this.user.city ? { city: { S: this.user.city } } : {}),
       ...(this.user.province ? { province: { S: this.user.province } } : {}),

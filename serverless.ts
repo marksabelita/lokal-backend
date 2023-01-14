@@ -2,15 +2,20 @@ import type { AWS } from '@serverless/typescript'
 import { dynamoDbResource } from './src/resources/stacks/dynamo'
 // import { authResource } from './src/resources/stacks/authorizers'
 
-// routes
+// api gateway routes
 import { userRoutes } from './src/routes/user.routes'
 import { talentRoutes } from './src/routes/talent.routes'
+import { authRoutes } from './src/routes/auth.routes'
+
+// event-driven
+import { registrationEvents } from './src/events/registration'
 
 const environment = {
   ENV: '${env:ENV}',
   REGION: '${env:REGION}',
   DYNAMODB_LOCAL_ENDPOINT: '${env:DYNAMODB_LOCAL_ENDPOINT}',
   DYNAMODB_TABLE_NAME: '${env:DYNAMODB_TABLE_NAME}',
+  EVENT_BRIDGE_LOCAL_ENDPOINT: '${env:EVENT_BRIDGE_LOCAL_ENDPOINT}',
 }
 
 // const domainName = `${environment.ENV == 'production' ? '' : `${environment.ENV}-`}boilerplate-api.${environment.API_DOMAIN_NAME}`
@@ -55,6 +60,7 @@ const serverless: AWS = {
     'serverless-dynamodb-local',
     'serverless-plugin-warmup',
     'serverless-offline',
+    'serverless-offline-aws-eventbridge',
     // 'serverless-domain-manager',
   ],
   layers: {
@@ -95,6 +101,17 @@ const serverless: AWS = {
       },
       stages: ['dev'],
     },
+    'serverless-offline-aws-eventbridge': {
+      port: 4010,
+      mockEventBridgeServer: true,
+      hostname: '127.0.0.1',
+      pubSubPort: 4011,
+      debug: false,
+      account: '',
+      maximumRetryAttempts: 10,
+      retryDelayMs: 500,
+      payloadSizeLimit: '10mb',
+    },
     // customDomain: {
     //   domainName,
     //   basePath: '',
@@ -105,8 +122,13 @@ const serverless: AWS = {
   },
   useDotenv: true,
   functions: {
+    //api-gateway
     ...userRoutes,
     ...talentRoutes,
+    ...authRoutes,
+
+    //events
+    ...registrationEvents,
   },
   resources: {
     Resources: {

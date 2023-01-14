@@ -112,7 +112,7 @@ export class TalentService {
         ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
       }
 
-      console.log(updateItemData)
+      await this.generateRedisRecord()
       await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
       return this.talent
     } catch (error) {

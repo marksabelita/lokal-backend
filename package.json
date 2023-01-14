@@ -56,6 +56,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.238.0",
+    "@aws-sdk/client-eventbridge": "^3.245.0",
     "@aws-sdk/client-secrets-manager": "^3.55.0",
     "@middy/core": "^3.6.2",
     "@middy/http-error-handler": "^3.6.2",
@@ -64,6 +65,7 @@
     "joi": "^17.5.0",
     "jsonwebtoken": "^8.5.1",
     "serverless-dynamodb-client": "0.0.2",
+    "serverless-offline-aws-eventbridge": "1.6.7",
     "ulid": "^2.3.0"
   }
 }
