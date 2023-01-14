@@ -3,7 +3,7 @@ import type { AWS } from '@serverless/typescript'
 import { cors } from '../resources/cors'
 
 export const authRoutes: AWS['functions'] = {
-  registerUser: {
+  postAuthRegister: {
     handler: 'src/handlers/Auth/register/index.handler',
     events: [
       {
@@ -15,14 +15,38 @@ export const authRoutes: AWS['functions'] = {
       },
     ],
   },
-  validateOTP: {
-    handler: 'src/handlers/Auth/validateOTP/index.handler',
+  postAuthLogin: {
+    handler: 'src/handlers/Auth/login/index.handler',
     events: [
       {
         http: {
           cors: cors,
           method: 'post',
-          path: '/auth/validate/otp',
+          path: '/auth/login',
+        },
+      },
+    ],
+  },
+  postAuthAuthenticate: {
+    handler: 'src/handlers/Auth/authenticate/index.handler',
+    events: [
+      {
+        http: {
+          cors: cors,
+          method: 'post',
+          path: '/auth/authenticate',
+        },
+      },
+    ],
+  },
+  postCheckAuth: {
+    handler: 'src/handlers/Auth/checkAuth/index.handler',
+    events: [
+      {
+        http: {
+          cors: cors,
+          method: 'post',
+          path: '/auth/check',
         },
       },
     ],

@@ -1,4 +1,4 @@
-import { USER_DEFAULT_UNAME } from '../config/conts.config'
+import { NOT_EXIST_ERROR_MESSAGE, USER_DEFAULT_UNAME } from '../config/conts.config'
 import { IDynamoDBKey } from '../interface/dynamo.interface'
 import { IUserInterfaceModel } from '../interface/models/user.interface'
 import { Item } from './base.model'
@@ -13,15 +13,16 @@ export class UserModel extends Item {
   }
 
   static fromItem(item: IDynamoDBKey): UserModel {
-    if (!item) throw new Error('No item!')
+    if (!item) throw new Error(NOT_EXIST_ERROR_MESSAGE)
+
     const formattedItem: IUserInterfaceModel = {
-      contactNumber: item.contactNumber.S,
-      firstName: item.firstName.S,
-      lastName: item.lastName.S,
-      userType: item.userType.S,
-      birthday: item.birthday.S,
-      city: item.city.S,
-      province: item.province.S,
+      contactNumber: item?.contactNumber?.S,
+      firstName: item?.firstName?.S,
+      lastName: item?.lastName?.S,
+      userType: item?.userType?.S,
+      birthday: item?.birthday?.S,
+      city: item?.city?.S,
+      province: item?.province?.S,
       latitude: item.latitude && item.latitude.N ? parseFloat(item.latitude.N) : null,
       longitude: item.longitude && item.longitude.N ? parseFloat(item.longitude.N) : null,
       active: item.active && item.active.N ? parseInt(item.active.N) : null,

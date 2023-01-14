@@ -2,14 +2,14 @@ import { ICustomContext } from '../../interface/context.interface'
 import { IUserInterfaceModel } from '../../interface/models/user.interface'
 import { UserModel } from '../../models/user.models'
 import { UserService } from '../../services/user.service'
-import { success } from '../../util/response.util'
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 import { sendOTPEvent } from '../../util/events.util'
-import { generateRandomOTP } from '../../util/generators.util'
 import { IOTPParams } from '../../interface/otp.interface'
 import { OTPModel } from '../../models/otp.models'
 import { DEFAULT_TTL } from '../../config/conts.config'
 import { OTPService } from '../../services/otp.service'
+import { success } from '../../util/response.util'
+import { generateRandomOTP } from '../../util/generators.util'
 
 export const registerUser = async (
   event: APIGatewayProxyEvent,
@@ -34,7 +34,7 @@ export const registerUser = async (
 
 const createOTPRecord = async (contactNumber: string): Promise<IOTPParams> => {
   const otp = generateRandomOTP()
-  const otpModel = new OTPModel({ contactNumber, otp, ttl: DEFAULT_TTL })
+  const otpModel = new OTPModel({ contactNumber, otp, ttl: DEFAULT_TTL, purpose: 'Register' })
   const otpService = new OTPService(otpModel)
   await otpService.createOTP()
 

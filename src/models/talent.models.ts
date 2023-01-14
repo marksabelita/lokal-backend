@@ -1,4 +1,4 @@
-import { TALENT_DEFAULT_UNAME } from '../config/conts.config'
+import { NOT_EXIST_ERROR_MESSAGE, TALENT_DEFAULT_UNAME } from '../config/conts.config'
 import { IDynamoDBKey } from '../interface/dynamo.interface'
 import { ITalentInterfaceModel } from '../interface/models/talent.interface'
 import { Item } from './base.model'
@@ -13,7 +13,7 @@ export class TalentModel extends Item {
   }
 
   static fromItem(item: IDynamoDBKey): TalentModel {
-    if (!item) throw new Error('No item!')
+    if (!item) throw new Error(NOT_EXIST_ERROR_MESSAGE)
 
     const formattedItem: ITalentInterfaceModel = {
       contactNumber: item.contactNumber.S,

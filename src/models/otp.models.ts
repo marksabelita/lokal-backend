@@ -1,4 +1,4 @@
-import { DEFAULT_TTL, OTP_DEFAULT_UNAME } from '../config/conts.config'
+import { DEFAULT_TTL, NOT_EXIST_ERROR_MESSAGE, OTP_DEFAULT_UNAME } from '../config/conts.config'
 import { IDynamoDBKey } from '../interface/dynamo.interface'
 import { IOTPInterfaceModel } from '../interface/models/otp.interface'
 import { Item } from './base.model'
@@ -13,7 +13,7 @@ export class OTPModel extends Item {
   }
 
   static fromItem(item: IDynamoDBKey): OTPModel {
-    if (!item) throw new Error('No item!')
+    if (!item) throw new Error(NOT_EXIST_ERROR_MESSAGE)
     const formattedItem: IOTPInterfaceModel = {
       contactNumber: item.contactNumber.S,
       ttl: DEFAULT_TTL,
@@ -37,6 +37,7 @@ export class OTPModel extends Item {
   toItem() {
     return {
       ...(this.otp.otp ? { otp: { N: this.otp.otp.toString() } } : {}),
+      ...(this.otp.purpose ? { purpose: { S: this.otp.purpose.toString() } } : {}),
       ...(this.otp.ttl
         ? { ttl: { N: this.otp.ttl.toString() } }
         : { ttl: { N: DEFAULT_TTL.toString() } }),

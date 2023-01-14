@@ -6,29 +6,29 @@ import { OTPService } from '../../services/otp.service'
 import { IOTPInterfaceModel } from '../../interface/models/otp.interface'
 import { UserModel } from '../../models/user.models'
 import { UserService } from '../../services/user.service'
+import { generateJWTToken } from '../../util/auth.utils'
 
-export const validateOTP = async (
+export const authenticateOTP = async (
   event: APIGatewayProxyEvent,
   context: ICustomContext<any>
 ): Promise<APIGatewayProxyResult> => {
   context.callbackWaitsForEmptyEventLoop = false
-  let updateUser: Promise<UserModel>
-  const { logger } = context
+  const { logger, secrets } = context
   const { body } = event
   const params: IOTPInterfaceModel = JSON.parse(body)
   const otpModel = new OTPModel({ contactNumber: params.contactNumber, otp: params.otp })
   const otpService = new OTPService(otpModel)
-  const otpExist = await otpService.getOTP()
+  await otpService.getOTP()
 
-  if (otpExist) {
-    updateUser = verifyUser(params.contactNumber)
-  }
+  const user = await getUser(params.contactNumber)
+  const token = await generateJWTToken(secrets, user)
 
-  return success(logger.getTrackingCode(), 'success', { success: true, updateUser })
+  return success(logger.getTrackingCode(), 'success', { token })
 }
 
-const verifyUser = async (contactNumber): Promise<UserModel> => {
+const getUser = async (contactNumber): Promise<UserModel> => {
   const userModel = new UserModel({ contactNumber: contactNumber, isVerified: true })
   const userService = new UserService(userModel)
-  return await userService.updateUser()
+  await userService.updateUser()
+  return userService.getUser()
 }

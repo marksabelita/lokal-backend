@@ -1,10 +1,8 @@
 import * as AWS from '@aws-sdk/client-secrets-manager'
 import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from './environments.util'
 import { ICustomContext } from '../interface/context.interface'
-import { SecretValues } from '../interface/secrets.interface'
-import { KEYS_PATH } from '../config/conts.config'
+import { ISecretValues } from '../interface/secrets.interface'
 import { checkIsOffline } from './checker.util'
-import path from 'path'
 import { readFileSync } from 'fs'
 
 export class SecretVariables {
@@ -16,7 +14,7 @@ export class SecretVariables {
     this.context = context
   }
 
-  public async initiliaze(): Promise<SecretValues> {
+  public async initiliaze(): Promise<ISecretValues> {
     const isOffline = checkIsOffline()
 
     const values = isOffline ? await this.getLocalSecretKeys() : await this.getSecretManagerKey()
@@ -25,12 +23,16 @@ export class SecretVariables {
 
   private async getLocalSecretKeys() {
     const localSecretPath = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.LOCAL_SECRET_PATH)
-    const PUBLIC_KEY = await readFileSync(`${localSecretPath}/jwtRS256.key.pub`, 'utf8')
-    const PRIVATE_KEY = await readFileSync(`${localSecretPath}/jwtRS256.key`, 'utf8')
+    const [PUBLIC_KEY, PRIVATE_KEY, TWILLIO_KEY] = await Promise.all([
+      readFileSync(`${localSecretPath}/jwtRS256.key.pub`, 'utf8'),
+      readFileSync(`${localSecretPath}/jwtRS256.key`, 'utf8'),
+      readFileSync(`${localSecretPath}/twillio.json`, 'utf8'),
+    ])
 
     return {
       PUBLIC_KEY,
       PRIVATE_KEY,
+      ...JSON.parse(TWILLIO_KEY),
     }
   }
 

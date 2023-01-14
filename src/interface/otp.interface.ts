@@ -1,4 +1,4 @@
 export interface IOTPParams {
-  otp: number
+  otp?: number
   contactNumber: string
 }
