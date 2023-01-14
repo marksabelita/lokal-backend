@@ -4,6 +4,7 @@ import { SetEnvMiddleware } from './SetEnvMiddleware'
 import httpErrorHandler from '@middy/http-error-handler'
 // import { AuthMiddleware } from './AuthMiddleware'
 import { LoggerMiddleware } from './LoggerMiddleware'
+import { GetEnviromentSecretMiddleware } from './GetEnviromentSecretMiddleware'
 
 const isWarmingUp = (event) => event.isWarmingUp === true
 
@@ -11,7 +12,7 @@ export const defaultMiddleware = [
   warmup({ isWarmingUp }),
   LoggerMiddleware(),
   SetEnvMiddleware(),
-  // GetEnviromentSecretMiddleware(),
+  GetEnviromentSecretMiddleware(),
   // AuthMiddleware(),
   httpErrorHandler(),
 ]

@@ -9,8 +9,8 @@ export const GetEnviromentSecretMiddleware = () => {
     logger.info('GetEnviromentSecretMiddleware was ran.')
     const env = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.ENV)
     logger.info(`INIT-ENV, ${env}`)
-
-    request.context.secrets = await SecretVariables.initiliaze(logger)
+    const secretVariables = new SecretVariables(request.context)
+    request.context.secrets = await secretVariables.initiliaze()
   }
 
   const onError = async (request) => {
