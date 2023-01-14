@@ -17,7 +17,7 @@
     "@middy/warmup": "^3.6.2",
     "ioredis": "^5.2.4",
     "joi": "^17.5.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "serverless-dynamodb-client": "0.0.2",
     "serverless-offline-aws-eventbridge": "1.6.7",
     "twilio": "^3.84.1",
