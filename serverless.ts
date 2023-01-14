@@ -2,12 +2,12 @@ import type { AWS } from '@serverless/typescript'
 import { dynamoDbResource } from './src/resources/stacks/dynamo'
 // import { authResource } from './src/resources/stacks/authorizers'
 
-// api gateway routes
+// api gateway
 import { userRoutes } from './src/routes/user.routes'
 import { talentRoutes } from './src/routes/talent.routes'
 import { authRoutes } from './src/routes/auth.routes'
 
-// event-driven
+// events
 import { registrationEvents } from './src/events/registration'
 
 const environment = {
