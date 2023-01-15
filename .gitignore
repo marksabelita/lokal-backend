@@ -6,4 +6,5 @@ node_modules
 .webpack
 .dynamodb
 .env.dev
+.warmup
 keys
