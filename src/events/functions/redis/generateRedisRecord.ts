@@ -1,10 +1,10 @@
 import { EventBridgeEvent } from 'aws-lambda'
-import { ICustomContext } from '../../interface/context.interface'
-import { ITalentInterfaceModel } from '../../interface/models/talent.interface'
-import { replaceCharWithDashUpperCase } from '../../util/transformer/string.transformer'
-import { TALENT_DEFAULT_UNAME, TALENT_DEFAULT_GEO_DATA } from '../../config/conts.config'
-import { getRedisClient } from '../../database/redisDb'
-import { ISecretValues } from '../../interface/secrets.interface'
+import { ICustomContext } from '../../../interface/context.interface'
+import { ITalentInterfaceModel } from '../../../interface/models/talent.interface'
+import { replaceCharWithDashUpperCase } from '../../../util/transformer/string.transformer'
+import { TALENT_DEFAULT_UNAME, TALENT_DEFAULT_GEO_DATA } from '../../../config/conts.config'
+import { getRedisClient } from '../../../database/redisDb'
+import { ISecretValues } from '../../../interface/secrets.interface'
 
 export const generateRedisRecordConsumer = async (
   _event: EventBridgeEvent<any, any>,
