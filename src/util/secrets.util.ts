@@ -23,16 +23,18 @@ export class SecretVariables {
 
   private async getLocalSecretKeys() {
     const localSecretPath = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.LOCAL_SECRET_PATH)
-    const [PUBLIC_KEY, PRIVATE_KEY, TWILLIO_KEY] = await Promise.all([
+    const [PUBLIC_KEY, PRIVATE_KEY, TWILLIO_KEY, REDIS_KEYS] = await Promise.all([
       readFileSync(`${localSecretPath}/jwtRS256.key.pub`, 'utf8'),
       readFileSync(`${localSecretPath}/jwtRS256.key`, 'utf8'),
       readFileSync(`${localSecretPath}/twillio.json`, 'utf8'),
+      readFileSync(`${localSecretPath}/redis.json`, 'utf8'),
     ])
 
     return {
       PUBLIC_KEY,
       PRIVATE_KEY,
       ...JSON.parse(TWILLIO_KEY),
+      ...JSON.parse(REDIS_KEYS),
     }
   }
 

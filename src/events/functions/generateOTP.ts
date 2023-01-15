@@ -18,7 +18,7 @@ export const generateOTPConsumer = async (
     to: detail.contactNumber,
   }
 
-  // const twillioResult = await sendTwillioSMS(otpMessage, secrets)
-  // return { statusCode: 200, body: JSON.stringify(twillioResult) }
-  return { statusCode: 200, body: true }
+  const twillioResult = await sendTwillioSMS(otpMessage, secrets)
+  return { statusCode: 200, body: JSON.stringify(twillioResult) }
+  // return { statusCode: 200, body: true }
 }

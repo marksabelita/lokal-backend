@@ -2,6 +2,7 @@ export interface ITalentInterfaceModel {
   contactNumber: string
   fullName?: string
   category?: string
+  specificCategory?: string
   city?: string
   province?: string
   experienceDetails?: string

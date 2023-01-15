@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import { getDynamoDBClient } from '../database/dynamoDb'
-import { getRedisClient } from '../database/redisDb'
+// import { getRedisClient } from '../database/redisDb'
 import { TalentModel } from '../models/talent.models'
 import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
 import {
@@ -13,8 +13,8 @@ import {
   getExpressionAttributeNamesTransformer,
   getUpdateExpressionTransformer,
 } from '../util/transformer/dynamoData.transformer'
-import { replaceSpecCharWithDash } from '../util/transformer/string.transformer'
-import { TALENT_DEFAULT_UNAME } from '../config/conts.config'
+// import { replaceSpecCharWithDash } from '../util/transformer/string.transformer'
+// import { TALENT_DEFAULT_UNAME } from '../config/conts.config'
 
 export class TalentService {
   talent: TalentModel
@@ -40,33 +40,33 @@ export class TalentService {
     })
   }
 
-  generateRedisRecord = async (): Promise<void> => {
-    const { longitude, latitude, category } = this.talent.getTalent()
-    const labelCategory = replaceSpecCharWithDash(category).toUpperCase()
-    const redisUserData = this.groupTalentData(this.talent.getTalent())
+  // generateRedisRecord = async (): Promise<void> => {
+  //   const { longitude, latitude, category } = this.talent.getTalent()
+  //   const labelCategory = replaceSpecCharWithDash(category).toUpperCase()
+  //   const redisUserData = this.groupTalentData(this.talent.getTalent())
 
-    await Promise.all([
-      getRedisClient().geoadd(`${TALENT_DEFAULT_UNAME}`, latitude, longitude, redisUserData),
-      getRedisClient().geoadd(
-        `${TALENT_DEFAULT_UNAME}-${labelCategory}`,
-        latitude,
-        longitude,
-        redisUserData
-      ),
-    ])
-  }
+  //   await Promise.all([
+  //     getRedisClient().geoadd(`${TALENT_DEFAULT_UNAME}`, latitude, longitude, redisUserData),
+  //     getRedisClient().geoadd(
+  //       `${TALENT_DEFAULT_UNAME}-${labelCategory}`,
+  //       latitude,
+  //       longitude,
+  //       redisUserData
+  //     ),
+  //   ])
+  // }
 
-  deleteRedisRecord = async (): Promise<void> => {
-    const originalData = (await this.getTalent()).talent
-    const redisUserData = this.groupTalentData(originalData)
-    const labelCategory = replaceSpecCharWithDash(originalData.category).toUpperCase()
-    console.log(redisUserData)
+  // deleteRedisRecord = async (): Promise<void> => {
+  //   const originalData = (await this.getTalent()).talent
+  //   const redisUserData = this.groupTalentData(originalData)
+  //   const labelCategory = replaceSpecCharWithDash(originalData.category).toUpperCase()
+  //   console.log(redisUserData)
 
-    await Promise.all([
-      getRedisClient().zrem(`${TALENT_DEFAULT_UNAME}`, redisUserData),
-      getRedisClient().zrem(`${TALENT_DEFAULT_UNAME}-${labelCategory}`, redisUserData),
-    ])
-  }
+  //   // await Promise.all([
+  //   //   getRedisClient().zrem(`${TALENT_DEFAULT_UNAME}`, redisUserData),
+  //   //   getRedisClient().zrem(`${TALENT_DEFAULT_UNAME}-${labelCategory}`, redisUserData),
+  //   // ])
+  // }
 
   createTalent = async (): Promise<TalentModel> => {
     try {
@@ -75,7 +75,8 @@ export class TalentService {
         Item: this.talent.toItemCreate(),
         ConditionExpression: 'attribute_not_exists(PK)',
       }
-      await this.generateRedisRecord()
+
+      // await this.generateRedisRecord()
       await this.dynamoDbClient.send(new PutItemCommand(putItemData))
       return this.talent
     } catch (error) {
@@ -101,7 +102,7 @@ export class TalentService {
   }
 
   updateTalent = async (): Promise<TalentModel> => {
-    await this.deleteRedisRecord()
+    // await this.deleteRedisRecord()
 
     try {
       const updateItemData = {
@@ -112,7 +113,7 @@ export class TalentService {
         ExpressionAttributeValues: getExpressionAttributeNamesTransformer(this.talent.toItem()),
       }
 
-      await this.generateRedisRecord()
+      // await this.generateRedisRecord()
       await this.dynamoDbClient.send(new UpdateItemCommand(updateItemData))
       return this.talent
     } catch (error) {

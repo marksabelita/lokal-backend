@@ -2,6 +2,7 @@ import { ICustomContext } from '../../interface/context.interface'
 import { ITalentInterfaceModel } from '../../interface/models/talent.interface'
 import { TalentModel } from '../../models/talent.models'
 import { TalentService } from '../../services/talent.service'
+import { sendCreateTalentEvent } from '../../util/events.util'
 import { success } from '../../util/response.util'
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
 
@@ -16,6 +17,7 @@ export const createTalent = async (
   const talentModel = new TalentModel({ ...talent, rating: null })
   const talentService = new TalentService(talentModel)
 
-  const result = await talentService.createTalent()
-  return success(logger.getTrackingCode(), 'success', { result })
+  const createTalentResult = await talentService.createTalent()
+  const sendEvent = await sendCreateTalentEvent(talent)
+  return success(logger.getTrackingCode(), 'success', { createTalentResult, sendEvent })
 }

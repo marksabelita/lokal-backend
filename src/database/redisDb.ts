@@ -1,17 +1,15 @@
 import Redis from 'ioredis'
-import { ENVIRONMENT_VARIABLES, getEnvironmentVariableValue } from '../util/environments.util'
+import { ISecretValues } from '../interface/secrets.interface'
 let client = null
 
-export const getRedisClient = (): Redis => {
+export const getRedisClient = (secrets: ISecretValues): Redis => {
   if (client) return client
-  const host = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.REDIS_HOST)
-  const port = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.REDIS_PORT)
-  const password = getEnvironmentVariableValue(ENVIRONMENT_VARIABLES.REDIS_PASSWORD)
+  const { REDIS_HOST, REDIS_PORT, REDIS_PASSWORD } = secrets
 
   client = new Redis({
-    port: parseInt(port), // Redis port
-    host, // Redis host
-    password,
+    port: parseInt(REDIS_PORT), // Redis port
+    host: REDIS_HOST, // Redis host
+    password: REDIS_PASSWORD,
   })
 
   return client
