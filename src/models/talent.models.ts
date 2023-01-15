@@ -19,7 +19,7 @@ export class TalentModel extends Item {
       contactNumber: item.contactNumber.S,
       fullName: item.fullName.S,
       category: item.category.S,
-      specificCategory: item.specificCategory.S,
+      categoryDetails: item.categoryDetails.S,
       city: item?.city.S,
       province: item?.province.S,
       experienceDetails: item?.experienceDetails.S,
@@ -56,8 +56,8 @@ export class TalentModel extends Item {
       ...(this.talent.contactNumber ? { contactNumber: { S: this.talent.contactNumber } } : {}),
       ...(this.talent.fullName ? { fullName: { S: this.talent.fullName } } : {}),
       ...(this.talent.category ? { category: { S: this.talent.category } } : {}),
-      ...(this.talent.specificCategory
-        ? { specificCategory: { S: this.talent.specificCategory } }
+      ...(this.talent.categoryDetails
+        ? { specificCategory: { S: this.talent.categoryDetails } }
         : {}),
       ...(this.talent.city ? { city: { S: this.talent.city } } : {}),
       ...(this.talent.province ? { province: { S: this.talent.province } } : {}),
