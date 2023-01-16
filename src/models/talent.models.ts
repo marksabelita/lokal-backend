@@ -57,7 +57,7 @@ export class TalentModel extends Item {
       ...(this.talent.fullName ? { fullName: { S: this.talent.fullName } } : {}),
       ...(this.talent.category ? { category: { S: this.talent.category } } : {}),
       ...(this.talent.categoryDetails
-        ? { specificCategory: { S: this.talent.categoryDetails } }
+        ? { categoryDetails: { S: this.talent.categoryDetails } }
         : {}),
       ...(this.talent.city ? { city: { S: this.talent.city } } : {}),
       ...(this.talent.province ? { province: { S: this.talent.province } } : {}),

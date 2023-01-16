@@ -22,11 +22,11 @@ const generateTalentRedisRecord = async (
   talent: ITalentInterfaceModel,
   secrets: ISecretValues
 ): Promise<any> => {
-  const { longitude, latitude, category, specificCategory, rating } = talent
+  const { longitude, latitude, category, categoryDetails, rating } = talent
   const ratingData = rating ? rating : 0
 
   const categoryData = replaceCharWithDashUpperCase(category)
-  const sCategoryData = replaceCharWithDashUpperCase(specificCategory)
+  const sCategoryData = replaceCharWithDashUpperCase(categoryDetails)
 
   const key = `TALENT#${categoryData}#${sCategoryData}#${ratingData}`
 

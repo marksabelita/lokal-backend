@@ -5,7 +5,7 @@ export const createTalentValidation = Joi.object<ITalentInterfaceModel>({
   contactNumber: Joi.string().required(),
   fullName: Joi.string().required(),
   category: Joi.string().required(),
-  specificCategory: Joi.string().required(),
+  categoryDetails: Joi.string().required(),
   city: Joi.string().required(),
   province: Joi.string().required(),
   experienceDetails: Joi.string().required(),
