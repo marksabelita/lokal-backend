@@ -1,5 +1,9 @@
+import { sendUpdateTalentEvent } from '../../events/event/redis/talent/sendUpdateTalentEvent'
 import { ICustomContext } from '../../interface/context.interface'
-import { ITalentInterfaceModel } from '../../interface/models/talent.interface'
+import {
+  ITalentInterfaceModel,
+  ITalentUpdateNewAndOldParams,
+} from '../../interface/models/talent.interface'
 import { TalentModel } from '../../models/talent.models'
 import { TalentService } from '../../services/talent.service'
 import { success } from '../../util/response.util'
@@ -15,10 +19,18 @@ export const updateTalent = async (
   const { contactNumber } = pathParameters
   const updateDetails = JSON.parse(body)
   const talentData: ITalentInterfaceModel = { ...updateDetails, contactNumber: contactNumber }
-
   const talentModel = new TalentModel(talentData)
   const talentService = new TalentService(talentModel)
 
-  const result = await talentService.updateTalent()
-  return success(logger.getTrackingCode(), 'success', result)
+  const oldTalentData = await talentService.getTalentByContact()
+  const updateResult = await talentService.updateTalent()
+
+  const updatedData = { ...updateDetails, oldTalentData }
+  const dataToUpdate: ITalentUpdateNewAndOldParams = {
+    oldData: oldTalentData.talent,
+    newData: updatedData,
+  }
+
+  const sendDeleteTalentEventResult = await sendUpdateTalentEvent(dataToUpdate)
+  return success(logger.getTrackingCode(), 'success', { updateResult, sendDeleteTalentEventResult })
 }

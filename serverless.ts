@@ -8,7 +8,7 @@ import { talentRoutes } from './src/routes/talent.routes'
 import { authRoutes } from './src/routes/auth.routes'
 
 // events
-import { registrationEvents } from './src/events/registration'
+import { registerEvents } from './src/events/register'
 
 const environment = {
   ENV: '${env:ENV}',
@@ -130,7 +130,7 @@ const serverless: AWS = {
     ...authRoutes,
 
     //events
-    ...registrationEvents,
+    ...registerEvents,
   },
   resources: {
     Resources: {

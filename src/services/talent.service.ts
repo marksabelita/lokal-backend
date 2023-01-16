@@ -7,7 +7,9 @@ import {
   UpdateItemCommand,
   GetItemCommand,
   DynamoDBClient,
+  QueryCommand,
   PutItemCommand,
+  QueryCommandInput,
 } from '@aws-sdk/client-dynamodb'
 import {
   getExpressionAttributeNamesTransformer,
@@ -95,6 +97,37 @@ export class TalentService {
 
       const resp = await this.dynamoDbClient.send(new GetItemCommand(getItemData))
       return TalentModel.fromItem(resp.Item)
+    } catch (error) {
+      console.log(error)
+      throw error
+    }
+  }
+
+  async getTalentByContact(): Promise<TalentModel> {
+    const contactNumber = this.talent.getTalent().contactNumber
+
+    try {
+      const getItemData: QueryCommandInput = {
+        TableName: this.tableName,
+        KeyConditionExpression: '#PK = :PK AND begins_with(#SK, :SK)',
+        ExpressionAttributeValues: {
+          ':PK': {
+            S: 'TALENT',
+          },
+          ':SK': {
+            S: `TALENT#${contactNumber}`,
+          },
+        },
+        ExpressionAttributeNames: {
+          '#PK': 'PK',
+          '#SK': 'SK',
+        },
+      }
+
+      const resp = await this.dynamoDbClient.send(new QueryCommand(getItemData))
+
+      const data = resp?.Items?.[0] ?? null
+      return TalentModel.fromItem(data)
     } catch (error) {
       console.log(error)
       throw error

@@ -3,13 +3,13 @@ import { IUserInterfaceModel } from '../../interface/models/user.interface'
 import { UserModel } from '../../models/user.models'
 import { UserService } from '../../services/user.service'
 import { APIGatewayProxyResult, APIGatewayProxyEvent } from 'aws-lambda'
-import { sendOTPEvent } from '../../util/events.util'
 import { IOTPParams } from '../../interface/otp.interface'
 import { OTPModel } from '../../models/otp.models'
 import { DEFAULT_TTL } from '../../config/conts.config'
 import { OTPService } from '../../services/otp.service'
 import { success } from '../../util/response.util'
 import { generateRandomOTP } from '../../util/generators.util'
+import { sendOTPRegistrationEvent } from '../../events/event/twillio/sendRegistrationOTPEvent'
 
 export const registerUser = async (
   event: APIGatewayProxyEvent,
@@ -26,8 +26,9 @@ export const registerUser = async (
   const createUserResult = await userService.createUser()
 
   if (createUserResult && createUserResult.user) {
-    const otpData = await createOTPRecord(user.contactNumber)
-    sendOTPResult = await sendOTPEvent(otpData)
+    // const otpData = await createOTPRecord(user.contactNumber)
+    // sendOTPResult = await sendOTPRegistrationEvent(otpData)
+    sendOTPResult = null
   }
 
   return success(logger.getTrackingCode(), 'success', { createUserResult, sendOTPResult })

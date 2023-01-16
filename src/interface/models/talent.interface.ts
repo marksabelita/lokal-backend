@@ -19,3 +19,8 @@ export interface ITalentLocationQueryInterface {
   category?: string
   radius: number
 }
+
+export interface ITalentUpdateNewAndOldParams {
+  oldData: ITalentInterfaceModel
+  newData: ITalentInterfaceModel
+}

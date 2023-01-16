@@ -4,6 +4,7 @@ import { ITalentInterfaceModel } from '../../../interface/models/talent.interfac
 export const putTalentBodyValidation = Joi.object<ITalentInterfaceModel>({
   fullName: Joi.string().required(),
   category: Joi.string().required(),
+  categoryDetails: Joi.string().required(),
   city: Joi.string().required(),
   province: Joi.string().required(),
   experienceDetails: Joi.string().required(),

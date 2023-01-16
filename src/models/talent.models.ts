@@ -44,7 +44,7 @@ export class TalentModel extends Item {
   }
 
   get sk(): string {
-    return `${TALENT_DEFAULT_UNAME}#${this.talent.category}#${this.talent.contactNumber}`
+    return `${TALENT_DEFAULT_UNAME}#${this.talent.contactNumber}#${this.talent.category}`
   }
 
   getTalent(): ITalentInterfaceModel {
