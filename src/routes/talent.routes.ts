@@ -3,6 +3,18 @@ import type { AWS } from '@serverless/typescript'
 import { cors } from '../resources/cors'
 
 export const talentRoutes: AWS['functions'] = {
+  getTalentCategories: {
+    handler: 'src/handlers/Talent/getCategories/index.handler',
+    events: [
+      {
+        http: {
+          cors: cors,
+          method: 'get',
+          path: '/talent/categories',
+        },
+      },
+    ],
+  },
   getTalentByLocation: {
     handler: 'src/handlers/Talent/getByLocation/index.handler',
     events: [

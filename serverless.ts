@@ -6,6 +6,7 @@ import { dynamoDbResource } from './src/resources/stacks/dynamo'
 import { userRoutes } from './src/routes/user.routes'
 import { talentRoutes } from './src/routes/talent.routes'
 import { authRoutes } from './src/routes/auth.routes'
+import { eventRoutes } from './src/routes/event.routes'
 
 // events
 import { registerEvents } from './src/events/register'
@@ -134,6 +135,7 @@ const serverless: AWS = {
     ...userRoutes,
     ...talentRoutes,
     ...authRoutes,
+    ...eventRoutes,
 
     //events
     ...registerEvents,

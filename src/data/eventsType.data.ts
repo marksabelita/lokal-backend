@@ -1,4 +1,4 @@
-export const LOKAL_EVENTS_TYPE_DATA = [
+export const LOKAL_EVENTS_TYPES_DATA = [
   { id: 'EVNTTYPE_CNFRNC', name: 'Conference' },
   { id: 'EVNTTYPE_SMNRRTLK', name: 'Seminar or Talk' },
   { id: 'EVNTTYPE_TRDSHWCNSMRSHW', name: 'Tradeshow, Consumer Show, or Expo Convention' },

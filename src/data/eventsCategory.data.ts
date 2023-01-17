@@ -1,4 +1,4 @@
-export const LOKAL_EVENTS_CATEGORY_DATA = [
+export const LOKAL_EVENTS_CATEGORIES_DATA = [
   { id: 'EVNTCTGRY_MSC', name: 'Music' },
   { id: 'EVNTCTGRY_BSNSPRFSSNL', name: 'Business & Professional' },
   { id: 'EVNTCTGRY_FDDRNK', name: 'Food & Drink' },
