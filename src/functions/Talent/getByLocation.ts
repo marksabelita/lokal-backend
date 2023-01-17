@@ -10,11 +10,11 @@ export const getTalentByLocation = async (
   context: ICustomContext<any>
 ): Promise<APIGatewayProxyResult> => {
   context.callbackWaitsForEmptyEventLoop = false
-  const { logger } = context
+  const { logger, secrets } = context
   const { queryStringParameters } = event
   const { latitude, longitude, radius, category } = queryStringParameters
 
-  const redisClient = getRedisClient()
+  const redisClient = getRedisClient(secrets)
   const RADIUS = radius ? radius : DEFAULT_RADIUS
   const QUERY_KEY = category
     ? `TALENT-${replaceSpecCharWithDash(category).toUpperCase()}`

@@ -114,6 +114,12 @@ const serverless: AWS = {
       retryDelayMs: 500,
       payloadSizeLimit: '10mb',
     },
+    documentation: {
+      version: '1',
+      title: 'My API',
+      description: 'This is my API',
+      models: {},
+    },
     // customDomain: {
     //   domainName,
     //   basePath: '',

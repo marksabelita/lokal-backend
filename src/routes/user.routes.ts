@@ -1,6 +1,8 @@
 import type { AWS } from '@serverless/typescript'
-// import { authorizer } from "../resources/authorizer";
 import { cors } from '../resources/cors'
+
+// import { authorizer } from "../resources/authorizer";
+// import { createUserDocs } from './documentation/user/create.docs'
 
 export const userRoutes: AWS['functions'] = {
   createUser: {
